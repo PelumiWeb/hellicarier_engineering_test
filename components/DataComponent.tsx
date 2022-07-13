@@ -31,7 +31,7 @@ const DataComponent = (props: any) => {
     }
   return (
     <View>
-      <Text style={{textAlign: "center", fontWeight:"bold", marginBottom: 10}}>{props.date}</Text>
+      <Text style={{textAlign: "center", fontWeight:"bold", marginBottom: 10, marginTop:10}}>{props.date}</Text>
       {!props.isLoading && props?.data?.length == 0 && <Text style={{alignItems: "center"}}>No results found</Text>}
       {props.isLoading && <Text>Loading...</Text>}
       {!!props.data && props?.data?.map((data:any) => (

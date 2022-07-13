@@ -34,21 +34,51 @@ const Homescreen = () => {
   console.log(data)
   const [searchInput, setSearchInput] = React.useState("") 
   const [filterBy, setFilterBy] = React.useState("")
+
+  const catefories = [{
+    name: "Sunt",
+    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit"
+  },
+  {
+    name: "Qui",
+    title: "qui est esse"
+  },
+  {
+    name: "Quasi",
+    title: "ea molestias quasi exercitationem repellat qui ipsa sit aut"
+  },
+  {
+    name: "Eum",
+    title: "eum et est occaecati"
+
+  }, 
+  {
+    name: "quas",
+    title: "nesciunt quas odio"
+  }
+
+]
  
   const filteredData = React.useMemo(() => {
-    if (searchInput && searchInput.length > 0 || filterBy && filterBy.length > 0) { 
+    if (searchInput && searchInput.length > 0) { 
       return !!data.comments.data && data.comments.data.filter((data: any) => {
-        return (data.name.toLowerCase().includes(searchInput.toLowerCase() ||  filterBy.toLowerCase()) || 
-        data.body.toLowerCase().includes(searchInput.toLowerCase() ||  filterBy.toLowerCase())
+      console.log(data.post.title == filterBy)
+        return (data.name.toLowerCase().includes(searchInput.toLowerCase()) || 
+        data.body.toLowerCase().includes(searchInput.toLowerCase())
         )
       })
-    }else {
+    } else if (filterBy && filterBy.length > 0) {
+      return !!data.comments.data && data.comments.data.filter((data: any) => {        
+        console.log(data.post.title)          
+        return data.post.title === filterBy
+
+      })
+    }
+    else {
       return !!data?.comments.data && data?.comments.data
     }
   }, [searchInput, data, filterBy])
 
-  console.log(filteredData)
-    
 
   return (
     <SafeAreaView>
@@ -58,18 +88,29 @@ const Homescreen = () => {
         <Heading fontSize="lg">Search</Heading>
         <Input placeholder="Search" 
         value={searchInput}
-        onChangeText={(text) => setSearchInput(text)}
+        onChangeText={(text) => {
+          setSearchInput(text)
+          setFilterBy("")
+        } }
       variant="filled" width="100%" borderRadius="10" py="1" px="2" borderWidth="0" InputRightElement={<Icon mr="2" size="5" color="gray.400" as={
       <Ionicons name="ios-search" />
       } />} />
       </VStack>
     {/* Search */}
-    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} > 
-    <Text>Recents Search</Text>
-      <FilterByComponent text="Name" />
-      <FilterByComponent text="Title" />
-      <FilterByComponent text="Status" />
-      <FilterByComponent text="Type" />
+    <View style={{display: 'flex', justifyContent: 'space-between'}} > 
+    <Text style={{textAlign: "center"}}>Categories</Text>
+    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+      <ScrollView horizontal> 
+      {catefories.map((data) => (
+      <FilterByComponent
+      setFilterBy={setFilterBy}
+      title={data.title}
+      text={data.name}/>
+    ))}
+      </ScrollView>
+  
+      
+    </View>
     </View>
 
     {/* Data */}
@@ -99,10 +140,31 @@ const Homescreen = () => {
        date={"Friday"}  
       data={data?.comments?.data  && data?.comments?.data.slice(19, 24)}
        searchInput={searchInput}/> */}
+           <DatasComponent 
+       isLoading={isLoading}
+       date={"Monday"}  
+      data={filteredData && filteredData?.slice(0, 5)}
+       /> 
+           <DatasComponent 
+       isLoading={isLoading}
+       date={"Tuesday"}  
+      data={filteredData && filteredData?.slice(5, 9)}
+       /> 
+           <DatasComponent 
+       isLoading={isLoading}
+       date={"Wednesday"}  
+      data={filteredData && filteredData?.slice(9, 14)}
+       /> 
+           <DatasComponent 
+       isLoading={isLoading}
+       date={"Thursday"}  
+      data={ filteredData && filteredData?.slice(14, 19)}
+       /> 
+       
        <DatasComponent 
        isLoading={isLoading}
        date={"Friday"}  
-      data={filteredData}
+      data={filteredData && filteredData.slice(19, 24)}
        /> 
 
     </ScrollView>

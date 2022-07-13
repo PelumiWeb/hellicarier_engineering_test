@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 const FilterByComponent = (props: any) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity 
+    onPress={() => props.setFilterBy(props.title)}
+    style={styles.container}>
       <Text style={styles.text}>{props.text}</Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 
