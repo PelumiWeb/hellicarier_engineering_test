@@ -52,7 +52,7 @@ const DataComponent = (props: any) => {
     <View>
       <Text style={{textAlign: "center", fontWeight:"bold", marginBottom: 10, marginTop:10}}>{props.date}</Text>
       {!props.isLoading && filteredData?.length == 0 && <Text style={{alignItems: "center"}}>No results found</Text>}
-      {props.isLoading && <Text>Loading...</Text>}
+      {props.isLoading && <Text style={{textAlign: "center"}}>Loading...</Text>}
       {!!filteredData && filteredData.map((data:any) => (
         <RenderComponent item={data}/>
       ))}
