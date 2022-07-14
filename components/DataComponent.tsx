@@ -39,10 +39,10 @@ const DataComponent = (props: any) => {
               
               }}>
                   <Text style={{marginBottom: 10}}>
-                    {item.name}
+                    name:{item.name}
                   </Text>
                   <Text>
-                    {item?.body?.length > 20 ? item.body.slice(0, 20) : item.body}
+                    body:{item?.body?.length > 20 ? item.body.slice(0, 20) : item.body}
                   </Text>
                 </View>
             </TouchableOpacity>
@@ -54,7 +54,9 @@ const DataComponent = (props: any) => {
       {!props.isLoading && filteredData?.length == 0 && <Text style={{alignItems: "center"}}>No results found</Text>}
       {props.isLoading && <Text style={{textAlign: "center"}}>Loading...</Text>}
       {!!filteredData && filteredData.map((data:any) => (
-        <RenderComponent item={data}/>
+        <RenderComponent v
+        key={data.id}
+        item={data}/>
       ))}
     </View>
   )
