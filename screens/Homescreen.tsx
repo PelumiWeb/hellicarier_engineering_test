@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react'
 import FilterByComponent from '../components/FilterByComponent';
 import DatasComponent from '../components/DataComponent';
-import {  useGetPosts } from '../useGetPost';
 import { useQuery } from 'react-query';
 import { GraphQLClient, gql } from "graphql-request";
 const URL = "https://graphqlzero.almansi.me/api"
@@ -31,7 +30,7 @@ const Homescreen = () => {
     `)
     return data
   })
-  console.log(data)
+  
   const [searchInput, setSearchInput] = React.useState("") 
   const [filterBy, setFilterBy] = React.useState("")
 
@@ -56,36 +55,13 @@ const Homescreen = () => {
     name: "quas",
     title: "nesciunt quas odio"
   }
-
 ]
- 
-  const filteredData = React.useMemo(() => {
-    if (searchInput && searchInput.length > 0) { 
-      return !!data.comments.data && data.comments.data.filter((data: any) => {
-      console.log(data.post.title == filterBy)
-        return (data.name.toLowerCase().includes(searchInput.toLowerCase()) || 
-        data.body.toLowerCase().includes(searchInput.toLowerCase())
-        )
-      })
-    } else if (filterBy && filterBy.length > 0) {
-      return !!data.comments.data && data.comments.data.filter((data: any) => {        
-        console.log(data.post.title)          
-        return data.post.title === filterBy
-
-      })
-    }
-    else {
-      return !!data?.comments.data && data?.comments.data
-    }
-  }, [searchInput, data, filterBy])
 
 
   return (
     <SafeAreaView>
-
-      <Text>Homescreen</Text>
+      <Text style={{textAlign: "center", paddingVertical:20, fontWeight: "bold"}}>Homescreen</Text>
       <VStack w="100%" space={5} alignSelf="center" px="5">
-        <Heading fontSize="lg">Search</Heading>
         <Input placeholder="Search" 
         value={searchInput}
         onChangeText={(text) => {
@@ -98,7 +74,7 @@ const Homescreen = () => {
       </VStack>
     {/* Search */}
     <View style={{display: 'flex', justifyContent: 'space-between'}} > 
-    <Text style={{textAlign: "center"}}>Categories</Text>
+    <Text style={{textAlign: "center", paddingVertical: 10,}}>Categories</Text>
     <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
       <ScrollView horizontal> 
       {catefories.map((data) => (
@@ -115,58 +91,41 @@ const Homescreen = () => {
 
     {/* Data */}
     <ScrollView> 
-      {/* <DatasComponent date={"Monday"}  
-      isLoading={isLoading}
-      data={data?.comments?.data && data?.comments?.data?.slice(0, 5)}
-       searchInput={searchInput}/>
-       <DatasComponent
-      isLoading={isLoading}
-       date={"Tuesday"}  
-      data={data?.comments?.data  && data?.comments?.data.slice(5, 9)}
-       searchInput={searchInput}/>
-       <DatasComponent
-      isLoading={isLoading}
-       date={"Wednesday"}  
-       filterBy={filterBy}
-      data={data?.comments?.data  && data?.comments?.data.slice(9, 14)}
-       searchInput={searchInput}/>
-       <DatasComponent 
-       isLoading={isLoading}
-       date={"Thursday"}  
-      data={data?.comments?.data  && data?.comments?.data.slice(14, 19)}
-       searchInput={searchInput}/>
-       <DatasComponent 
-       isLoading={isLoading}
-       date={"Friday"}  
-      data={data?.comments?.data  && data?.comments?.data.slice(19, 24)}
-       searchInput={searchInput}/> */}
            <DatasComponent 
+           filterBy={filterBy}
+           searchInput={searchInput}
        isLoading={isLoading}
        date={"Monday"}  
-      data={filteredData && filteredData?.slice(0, 5)}
+      data={!!data?.comments?.data && data.comments.data?.slice(0, 5)}
        /> 
            <DatasComponent 
+           filterBy={filterBy}
+           searchInput={searchInput}
        isLoading={isLoading}
        date={"Tuesday"}  
-      data={filteredData && filteredData?.slice(5, 9)}
+      data={!!data?.comments?.data && data.comments.data?.slice(5, 9)}
        /> 
            <DatasComponent 
+           filterBy={filterBy}
+           searchInput={searchInput}
        isLoading={isLoading}
        date={"Wednesday"}  
-      data={filteredData && filteredData?.slice(9, 14)}
+      data={!!data?.comments?.data && data.comments.data?.slice(9, 14)}
        /> 
            <DatasComponent 
+           filterBy={filterBy}
+           searchInput={searchInput}
        isLoading={isLoading}
        date={"Thursday"}  
-      data={ filteredData && filteredData?.slice(14, 19)}
+      data={ !!data?.comments?.data && data.comments.data?.slice(14, 19)}
        /> 
-       
        <DatasComponent 
+           filterBy={filterBy}
+           searchInput={searchInput}
        isLoading={isLoading}
        date={"Friday"}  
-      data={filteredData && filteredData.slice(19, 24)}
+      data={!!data?.comments?.data && data.comments.data.slice(19, 24)}
        /> 
-
     </ScrollView>
     </SafeAreaView> 
   )

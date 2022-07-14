@@ -2,6 +2,25 @@ import { StyleSheet, Text, View , TouchableOpacity} from 'react-native'
 import React from 'react'
 const DataComponent = (props: any) => {
 
+  const filteredData = React.useMemo(() => {
+    if (props.searchInput && props.searchInput.length > 0) { 
+      return !!props.data && props.data.filter((data: any) => {
+      // console.log(data.post.title == props.filterBy)
+        return (data.name.toLowerCase().includes(props.searchInput.toLowerCase()) || 
+        data.body.toLowerCase().includes(props.searchInput.toLowerCase())
+        )
+      })
+    } else if (props.filterBy && props.filterBy.length > 0) {
+      return !!props.data && props.data.filter((data: any) => {        
+        return data.post.title === props.filterBy
+
+      })
+    }
+    else {
+      return !!props.data && props?.data
+    }
+  }, [props.searchInput, props.data, props.filterBy])
+
     const RenderComponent = ({item}: any) => {
         return(
             <TouchableOpacity style={{
@@ -32,9 +51,9 @@ const DataComponent = (props: any) => {
   return (
     <View>
       <Text style={{textAlign: "center", fontWeight:"bold", marginBottom: 10, marginTop:10}}>{props.date}</Text>
-      {!props.isLoading && props?.data?.length == 0 && <Text style={{alignItems: "center"}}>No results found</Text>}
+      {!props.isLoading && filteredData?.length == 0 && <Text style={{alignItems: "center"}}>No results found</Text>}
       {props.isLoading && <Text>Loading...</Text>}
-      {!!props.data && props?.data?.map((data:any) => (
+      {!!filteredData && filteredData.map((data:any) => (
         <RenderComponent item={data}/>
       ))}
     </View>
