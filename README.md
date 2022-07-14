@@ -15,5 +15,5 @@ Complaint.
 Information.
 -Data are being displayed in five groups.
 -Search works for all the data groups
--As well as filter.
+-As well as filter..
 
